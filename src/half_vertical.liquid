@@ -1,0 +1,80 @@
+{%- assign alerts = data.alerts -%}
+{%- assign cantons = data.cantons -%}
+
+<div class="layout layout--top">
+  {%- if alerts == blank -%}
+  <div class="stack">
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="title">No active alerts</span>
+
+        <span class="label  label--outline">
+          Cantons: {%- if cantons and cantons.size > 0 -%}{{ cantons | join: ", " }}{%- else -%}All{%- endif -%}
+        </span>
+
+        <span class="description" data-clamp="3">
+          Nothing matches your current filter. If you still expect an alert, check the Alertswiss app/website or broaden your canton list.
+        </span>
+
+        <div class="flex gap--small">
+          <span class="label ">Tip:</span>
+          <span class="label " data-clamp="2">
+            Add "CH" to cantons to show all Swiss alerts (including nationwide).
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- else -%}
+  <div class="columns" data-overflow-max-cols="1" data-overflow-counter="true">
+    <div class="column">
+      {%- for a in alerts limit: data.limit -%}
+      <div class="item">
+        <div class="meta"></div>
+
+        <div class="content">
+          <span class="title title--small" data-clamp="2">
+            {%- if a.region != "" -%}{{ a.region }} - {%- endif -%}{{ a.title }}
+          </span>
+
+       
+
+          {%- if a.description != "" -%}
+          <span class="description" data-clamp="3">{{ a.description }}</span>
+          {%- endif -%}
+
+          {%- if a.instructions != blank -%}
+          <span class="label label--small">Recommendations for the public</span>
+
+          {%- comment -%}Handle both array and string cases without inline styles{%- endcomment -%}
+          {%- if a.instructions.size and a.instructions.first -%}
+          {%- for line in a.instructions -%}
+          {%- if line != "" -%}
+          <span class="description" data-clamp="2">• {{ line }}</span>
+          {%- endif -%}
+          {%- endfor -%}
+          {%- else -%}
+          <span class="description" data-clamp="4">{{ a.instructions | replace: "
+            ", " • " }}</span>
+          {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+</div>
+
+<div class="title_bar">
+  <?xml version="1.0" encoding="UTF-8"?>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g id="surface1">
+      <path style="stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 9.601562 0.167969 C 6.359375 0.71875 2.617188 3.71875 1.152344 6.910156 C -0.839844 11.304688 -0.046875 16.679688 3.121094 20.015625 C 7.246094 24.382812 12.886719 25.175781 17.425781 22.078125 C 23.808594 17.664062 24.648438 8.808594 19.175781 3.382812 C 16.558594 0.792969 12.984375 -0.40625 9.601562 0.167969 Z M 14.664062 6.863281 C 16.175781 7.296875 17.6875 8.136719 19.152344 9.3125 L 20.183594 10.152344 L 19.054688 11.304688 L 17.929688 12.457031 L 16.945312 11.785156 C 14.832031 10.320312 13.726562 9.960938 11.398438 9.960938 C 9.023438 9.960938 7.703125 10.414062 5.953125 11.785156 C 5.472656 12.167969 4.96875 12.480469 4.824219 12.480469 C 4.703125 12.480469 4.152344 11.976562 3.601562 11.351562 L 2.59375 10.199219 L 3.625 9.3125 C 4.96875 8.160156 6.574219 7.296875 8.183594 6.863281 C 9.9375 6.382812 13.054688 6.382812 14.664062 6.863281 Z M 14.566406 11.976562 C 15.238281 12.289062 16.03125 12.769531 16.34375 13.105469 L 16.871094 13.679688 L 15.769531 14.855469 C 15.121094 15.527344 14.59375 15.9375 14.496094 15.792969 C 14.207031 15.335938 12.359375 14.640625 11.375 14.640625 C 10.800781 14.640625 9.910156 14.878906 9.214844 15.238281 L 8.039062 15.839844 L 7.03125 14.832031 C 6.457031 14.28125 6 13.753906 6 13.632812 C 6 13.296875 7.753906 12.144531 8.953125 11.710938 C 10.558594 11.136719 12.863281 11.257812 14.566406 11.976562 Z M 13.152344 16.632812 L 13.679688 17.183594 L 12.527344 18.3125 L 11.375 19.464844 L 10.367188 18.382812 C 9.816406 17.785156 9.359375 17.183594 9.359375 17.015625 C 9.359375 16.488281 10.199219 16.105469 11.425781 16.078125 C 12.382812 16.078125 12.742188 16.199219 13.152344 16.632812 Z M 13.152344 16.632812 " />
+    </g>
+  </svg>
+
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">{{ trmnl.plugin_settings.custom_fields_values.cantons }}</span>
+</div>
