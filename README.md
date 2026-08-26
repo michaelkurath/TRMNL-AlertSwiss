@@ -1,19 +1,44 @@
 # Alert.Swiss
 
-A [TRMNL](https://trmnl.com) plugin for ePaper displays, connected by
-[GitHub Sync](https://help.trmnl.com/en/articles/15977899-github-sync): every save in TRMNL lands here as a commit.
+A [TRMNL](https://trmnl.com) community plugin that brings current official
+Swiss public warnings from [Alertswiss](https://www.alert.swiss/) to ePaper
+displays.
 
-<img width="150" alt="image" src="https://trmnl.com/images/brand/badges/light/works-with-trmnl/trmnl-badge-works-with-light.svg" />
+<img width="150" alt="Works with TRMNL" src="https://trmnl.com/images/brand/badges/light/works-with-trmnl/trmnl-badge-works-with-light.svg" />
 
-### Develop locally
+## What it does
 
-Templates and settings live in [`src/`](src/), ready for [trmnlp](https://github.com/usetrmnl/trmnlp):
+Alert.Swiss provides a quiet, glanceable overview of active warnings:
+
+- filter alerts by one or more canton codes, such as `ZH,SG,SH`
+- use `CH` to show alerts from all cantons
+- always include nationwide alerts
+- choose the maximum number of alerts displayed
+
+The plugin retrieves its warning data directly from the official
+[Alertswiss](https://www.alert.swiss/) service.
+
+## TRMNL recipe
+
+The recipe is maintained through
+[TRMNL GitHub Sync](https://help.trmnl.com/en/articles/15977899-github-sync).
+Its templates and settings are stored in [`src/`](src/).
+
+## Develop locally
+
+Preview the recipe with [trmnlp](https://github.com/usetrmnl/trmnlp):
 
 ```sh
 gem install trmnl_preview
 trmnlp serve
 ```
 
-### Discoverability
+## License
 
-Add the `trmnl` topic to this repo so other TRMNL plugin builders can find it.
+The original plugin templates, visual design, markup, and data-parsing logic are
+licensed under the [Creative Commons Attribution 4.0 International License](LICENSE),
+in accordance with the
+[TRMNL Community Plugin License](https://trmnl.com/plugin-license).
+
+© 2026 Michael Kurath. Alertswiss names, data, and branding remain the property
+of their respective rights holders and are not covered by this license.
