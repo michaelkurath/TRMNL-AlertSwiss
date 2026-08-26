@@ -6,7 +6,7 @@ static_data: ''
 polling_verb: get
 framework_version: 2.3.7
 serverless_language: node
-polling_url: https://www.alert.swiss/content/alertswiss-internet/en/home/_jcr_content/polyalert.alertswiss_alerts.actual.json
+polling_url: https://www.alert.swiss/content/alertswiss-internet/de/home/_jcr_content/polyalert.alertswiss_alerts.actual.json
 polling_headers: ''
 polling_body: ''
 id: 238152
