@@ -1,0 +1,58 @@
+name: Update Alertswiss data
+
+on:
+  push:
+    paths:
+      - .github/workflows/update-alerts.yml
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-alertswiss-data
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Fetch and validate alerts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data
+          tmp_file="$(mktemp)"
+          trap 'rm -f "$tmp_file"' EXIT
+
+          curl --fail --silent --show-error --location \
+            --retry 3 --retry-delay 5 --max-time 45 \
+            --header 'Accept: application/json' \
+            --header 'Accept-Language: de-CH,de;q=0.9' \
+            --header 'User-Agent: Mozilla/5.0 (compatible; TRMNL-AlertSwiss/1.0; +https://github.com/michaelkurath/TRMNL-AlertSwiss)' \
+            'https://www.alert.swiss/content/alertswiss-internet/de/home/_jcr_content/polyalert.alertswiss_alerts.actual.json' \
+            | jq -cS '{alerts: (.alerts // [])}' > "$tmp_file"
+
+          jq -e '.alerts | type == "array"' "$tmp_file" > /dev/null
+          mv "$tmp_file" data/alerts.json
+          trap - EXIT
+
+      - name: Commit changed alert data
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add data/alerts.json
+          if git diff --cached --quiet; then
+            echo 'Alert data unchanged.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Update Alertswiss data'
+          git push
