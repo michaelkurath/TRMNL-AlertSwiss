@@ -34,10 +34,10 @@ custom_fields:
 - keyname: author_bio
   field_type: author_bio
   name: About This Plugin
-  description: Shows alerts from <a href="https://www.alert.swiss/" target="_blank" rel="noopener">Alert.Swiss</a>.
+  description: Displays official public warnings from <a href="https://www.alert.swiss/" target="_blank" rel="noopener">Alertswiss</a>. Source code and documentation are available on <a href="https://github.com/michaelkurath/TRMNL-AlertSwiss" target="_blank" rel="noopener">GitHub</a>.
   category: environment,news
   email_address: michael.kurath@gmail.com
-  learn_more_url: https://www.alert.swiss/
+  learn_more_url: https://github.com/michaelkurath/TRMNL-AlertSwiss
 - keyname: cantons
   field_type: string
   name: Cantons (comma-separated)
@@ -52,5 +52,5 @@ custom_fields:
   default: 5
   optional: true
 name: Alert.Swiss
-description:
+description: Swiss alerts by canton
 refresh_interval: 60
