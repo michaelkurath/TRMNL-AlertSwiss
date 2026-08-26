@@ -18,6 +18,15 @@ Alert.Swiss provides a quiet, glanceable overview of active warnings:
 The plugin retrieves its warning data directly from the official
 [Alertswiss](https://www.alert.swiss/) service.
 
+## Data reliability
+
+Alertswiss currently rejects requests from some cloud-hosted polling services.
+To keep the recipe reliable, a scheduled GitHub Action retrieves the official
+Alertswiss feed every 15 minutes and updates [`data/alerts.json`](data/alerts.json)
+only when the alert content changes. TRMNL polls this public mirror instead of
+calling Alertswiss directly.
+
+The official Alertswiss feed remains the sole data source.
 ## TRMNL recipe
 
 The recipe is maintained through
