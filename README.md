@@ -15,7 +15,7 @@ Alert.Swiss provides a quiet, glanceable overview of active warnings:
 - always include nationwide alerts
 - choose the maximum number of alerts displayed
 
-The plugin retrieves its warning data directly from the official
+The plugin retrieves its warning data from the official
 [Alertswiss](https://www.alert.swiss/) service.
 
 ## Data reliability
@@ -23,10 +23,13 @@ The plugin retrieves its warning data directly from the official
 Alertswiss currently rejects requests from some cloud-hosted polling services.
 To keep the recipe reliable, a scheduled GitHub Action retrieves the official
 Alertswiss feed every 15 minutes and updates [`data/alerts.json`](data/alerts.json)
-only when the alert content changes. TRMNL polls this public mirror instead of
-calling Alertswiss directly.
+only when the alert content changes. TRMNL polls that mirror through jsDelivr's
+CDN instead of calling Alertswiss or GitHub Raw directly.
 
-The official Alertswiss feed remains the sole data source.
+Whenever the data changes, the workflow purges the jsDelivr cache so TRMNL
+receives the updated warnings promptly. The official Alertswiss feed remains
+the sole data source.
+
 ## TRMNL recipe
 
 The recipe is maintained through
