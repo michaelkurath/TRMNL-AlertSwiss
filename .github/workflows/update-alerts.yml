@@ -43,12 +43,14 @@ jobs:
           trap - EXIT
 
       - name: Commit changed alert data
+        id: commit
         shell: bash
         run: |
           set -euo pipefail
           git add data/alerts.json
           if git diff --cached --quiet; then
             echo 'Alert data unchanged.'
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -56,3 +58,15 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'Update Alertswiss data'
           git push
+          echo 'changed=true' >> "$GITHUB_OUTPUT"
+
+      - name: Purge jsDelivr cache
+        if: steps.commit.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          sleep 10
+          curl --fail --silent --show-error \
+            --retry 3 --retry-delay 5 --retry-all-errors \
+            'https://purge.jsdelivr.net/gh/michaelkurath/TRMNL-AlertSwiss@main/data/alerts.json' \
+            > /dev/null
