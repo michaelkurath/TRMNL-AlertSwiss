@@ -70,3 +70,12 @@ jobs:
             --retry 3 --retry-delay 5 --retry-all-errors \
             'https://purge.jsdelivr.net/gh/michaelkurath/TRMNL-AlertSwiss@main/data/alerts.json' \
             > /dev/null
+
+      - name: Validate CDN mirror
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --retry 3 --retry-delay 5 --retry-all-errors --max-time 45 \
+            'https://cdn.jsdelivr.net/gh/michaelkurath/TRMNL-AlertSwiss@main/data/alerts.json' \
+            | jq -e '.alerts | type == "array"' > /dev/null
