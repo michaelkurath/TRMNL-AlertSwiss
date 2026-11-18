@@ -14,6 +14,11 @@ id: 544740
 oauth_enabled: 'false'
 oauth_pkce_enabled: 'no'
 custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: Source code and support are available on <a href="https://github.com/michaelkurath/TRMNL-AlertSwiss" target="_blank" rel="noopener">GitHub</a>.
+  learn_more_url: https://github.com/michaelkurath/TRMNL-AlertSwiss
 - keyname: preview_mode
   name: Preview data
   field_type: select

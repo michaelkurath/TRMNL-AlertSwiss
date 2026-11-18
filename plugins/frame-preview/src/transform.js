@@ -1,10 +1,10 @@
 const SWISS_MAP = { left: 5.9, top: 47.85, xScale: 165, yScale: 240 };
 const NOTICE_STYLES = {
-  alert: { label: 'Alert', ink: '#ac1428', fill: '#f47070', tint: '#ffe0e3', rank: 5 },
-  warning: { label: 'Warning', ink: '#8e4700', fill: '#ffcb42', tint: '#fff1b7', rank: 4 },
-  information: { label: 'Information', ink: '#145594', fill: '#7bbce9', tint: '#dceefa', rank: 3 },
-  other: { label: 'Notice', ink: '#455660', fill: '#aeb9bd', tint: '#e9eff0', rank: 2 },
-  allClear: { label: 'All-clear', ink: '#176842', fill: '#87d19b', tint: '#dcf3df', rank: 1 }
+  alert: { key: 'alert', label: 'Alert', rank: 5 },
+  warning: { key: 'warning', label: 'Warning', rank: 4 },
+  information: { key: 'information', label: 'Information', rank: 3 },
+  other: { key: 'other', label: 'Notice', rank: 2 },
+  allClear: { key: 'allClear', label: 'All-clear', rank: 1 }
 };
 const SWISS_CANTONS = new Set('AG AI AR BE BL BS FR GE GL GR JU LU NE NW OW SG SH SO SZ TG TI UR VD VS ZG ZH'.split(' '));
 
@@ -244,7 +244,7 @@ function transform(input) {
       }
     }
   }
-  const cantonColors = Object.fromEntries([...cantonLevels].map(([code, style]) => [code, style.fill]));
+  const cantonSeverity = Object.fromEntries([...cantonLevels].map(([code, style]) => [code, style.key]));
   const filtered = matching.slice(0, Math.min(5, Math.floor(limit)));
 
   const normalized = filtered.map((a, index) => {
@@ -262,14 +262,13 @@ function transform(input) {
       : [];
 
     const nationwide = a.nationWide === true;
-    const { label: levelLabel, ink: color, tint } = noticeStyle(a);
+    const { key: level, label: levelLabel } = noticeStyle(a);
     const { shapes, anchor } = nationwide ? { shapes: [], anchor: null } : mapAlert(a);
 
     return {
       number: index + 1,
       levelLabel,
-      color,
-      tint,
+      level,
       nationwide,
       isTest: a.testAlert === true || a.technicalTestAlert === true,
       shapes,
@@ -284,7 +283,7 @@ function transform(input) {
 
   placeMarkers(normalized);
   return { data: {
-    cantons, limit, showAll, alerts: normalized, available, demo, cantonColors, nationwideCount, hasOtherLevel,
+    cantons, limit, showAll, alerts: normalized, available, demo, cantonSeverity, nationwideCount, hasOtherLevel,
     scope: showAll || cantons.length === 0 ? 'All Switzerland' : cantons.join(', '),
     hidden: matching.length - normalized.length,
     snapshotCheckedAt: !demo && typeof payload?.checked_at === 'string' ? payload.checked_at : ''
