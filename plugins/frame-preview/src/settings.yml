@@ -1,16 +1,18 @@
 ---
-name: Alert.Swiss Frame Preview
-description: Swiss alert map test recipe
 strategy: polling
-refresh_interval: 60
-polling_url: https://cdn.jsdelivr.net/gh/michaelkurath/TRMNL-AlertSwiss@main/data/alerts.json
-polling_verb: GET
-polling_headers: ''
-polling_body: ''
 no_screen_padding: 'yes'
 dark_mode: 'no'
-framework_version: '2.3.7'
+static_data: ''
+polling_verb: get
+framework_version: 2.3.7
 serverless_language: node
+refresh_interval_floor: ''
+polling_url: https://cdn.jsdelivr.net/gh/michaelkurath/TRMNL-AlertSwiss@main/data/alerts.json
+polling_headers: ''
+polling_body: ''
+id: 544740
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
 custom_fields:
 - keyname: preview_mode
   name: Preview data
@@ -44,3 +46,6 @@ custom_fields:
   default: 5
   optional: true
   description: Show up to five matching notices in the list. Canton colours reflect all matching regional notices.
+name: Alert.Swiss Frame Preview
+description: Swiss alert map test recipe
+refresh_interval: 60
